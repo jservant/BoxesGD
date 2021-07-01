@@ -6,7 +6,6 @@ func _ready():
 	for child in get_children():
 		set_cellv(world_to_map(child.position), child.type)
 
-# WIP FROM HERE DOWN. Continue here: https://youtu.be/9laHKHYNyXc?t=477
 func get_cell_pawn(cell, type = TileType.ACTOR):
 	for node in get_children():
 		if node.type != type:
@@ -25,6 +24,6 @@ func request_move(pawn, direction):
 			set_cellv(cell_target, TileType.ACTOR)
 			set_cellv(cell_start, -1)
 			return map_to_world(cell_target) + cell_size / 2
-		TileType.OBJECT, TileType.ACTOR:
+		TileType.ACTOR: # currently does nothing since the player is the only actor
 			var target_pawn = get_cell_pawn(cell_target, cell_tile_id)
 			print("Cell %s contains %s" % [cell_target, target_pawn.name])

@@ -36,7 +36,7 @@ func update_look_direction(direction):
 
 func move_to(target_position):
 	set_process(false)
-	$AnimationPlayer.play("walk")
+	#$AnimationPlayer.play("walk")
 	
 	# Move the node to the target cell instantly
 	# then animate the sprite moving from the start to the target tile
