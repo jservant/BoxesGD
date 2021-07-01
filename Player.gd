@@ -1,6 +1,7 @@
-extends "Pawn.gd"
+extends Node2D
 
-onready var Grid = get_parent() # gets parent grid
+onready var Grid = get_parent() # gets parent Tilemap
+onready var iPos = (global_position)
 
 """
 TODO:
@@ -11,48 +12,21 @@ TODO:
 """
 
 func _process(_delta): #update
-	var input_direction = get_input_direction()
-	if not input_direction:
-		return
-	# update_look_direction(input_direction)
-
-	var target_position = Grid.request_move(self, input_direction)
-	if target_position:
-		move_to(target_position)
-		#$Tween.start()
-	#else:
-	#	bump()
-
-func get_input_direction():
-	return Vector2(
-		Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
-		Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	)
-
-# does nothing without animation triggers I think
-func update_look_direction(direction):
-	$Pivot/Sprite.rotation = direction.angle()
-
-
-func move_to(target_position):
-	set_process(false)
-	#$AnimationPlayer.play("walk")
 	
-	# Move the node to the target cell instantly
-	# then animate the sprite moving from the start to the target tile
-	# All animation stuff commented out for now
-	var move_direction = (position - target_position).normalized()
-	# make sure 32 on the next line is the size of a cell, or half idk yet
-	#$Tween.interpolate_property($Pivot, "position", move_direction * 32, Vector2(), $AnimationPlayer.current_animation_length, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	#$Pivot/Sprite.position = position - target_position
-	position = target_position
+	global_position = lerp(global_position, iPos, _delta * 20)
+	
+	if Input.is_action_just_pressed("down"):
+		check_then_move(iPos.x, iPos.y + 64)
+	if Input.is_action_just_pressed("up"):
+		check_then_move(iPos.x, iPos.y - 64)
+	if Input.is_action_just_pressed("right"):
+		check_then_move(iPos.x + 64, iPos.y)
+	if Input.is_action_just_pressed("left"):
+		check_then_move(iPos.x - 64, iPos.y)
 
-	# Stop function execution until animation is finished
-	# again commented for now for polish reasons tho it might break things
-	#yield($AnimationPlayer, "animation_finished")
-
-	set_process(true)
-
-
-# func bump():
-#	$AnimationPlayer.play("bump")
+func check_then_move(cx, cy):
+	var gridPos = Grid.world_to_map(Vector2(cx, cy))
+	print("gridPos: ", gridPos)
+	print("Tilemap value: ", Grid.get_cellv(gridPos))
+	if Grid.get_cellv(gridPos) != -1:
+		iPos = Vector2(cx, cy)
