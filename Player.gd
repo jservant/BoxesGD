@@ -50,4 +50,5 @@ func check_then_move(gridPos, cx, cy):
 			elif (touchedTiles[tile].z == 6):  Grid.set_cellv(Vector2(touchedTiles[tile].x, touchedTiles[tile].y), 13)
 		if (Grid.get_cellv(newGridPos) == -1):
 			ded = true
+			$Sprite.visible = not $Sprite.visible
 			print("you ded lol")
