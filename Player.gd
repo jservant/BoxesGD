@@ -7,14 +7,15 @@ var ded = false
 
 """
 TODO:
-	- Implement tile burning
-	- Make burning work by decreasing the tile value every time the player moves.
 	- Make tweening/animation work the way you want it (polish)
 """
 
 func _process(_delta): #update
 	
 	global_position = lerp(global_position, iPos, _delta * 20) # movement lerp
+	
+	if Input.is_action_just_pressed("restart"):
+		get_tree().reload_current_scene()
 	
 	if Input.is_action_just_pressed("down"):
 		check_then_move(Grid.world_to_map(iPos), iPos.x, iPos.y + 64)
@@ -50,15 +51,3 @@ func check_then_move(gridPos, cx, cy):
 		if (Grid.get_cellv(newGridPos) == -1):
 			ded = true
 			print("you ded lol")
-
-
-#			match int(tile.z):
-#				0:
-#					Grid.set_cellv(Vector2(tile.x, tile.y), -1)
-#					touchedTiles.erase(tile)
-#				1:  Grid.set_cellv(Vector2(tile.x, tile.y), 8)
-#				2:  Grid.set_cellv(Vector2(tile.x, tile.y), 9)
-#				3:  Grid.set_cellv(Vector2(tile.x, tile.y), 10)
-#				4:  Grid.set_cellv(Vector2(tile.x, tile.y), 11)
-#				5:  Grid.set_cellv(Vector2(tile.x, tile.y), 12)
-#				6:  Grid.set_cellv(Vector2(tile.x, tile.y), 13)
