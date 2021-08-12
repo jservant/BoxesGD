@@ -2,6 +2,7 @@ extends Node2D
 
 onready var Grid = get_parent() # gets parent Tilemap
 onready var iPos = (global_position)
+var allTiles = []
 var touchedTiles = []
 var ded = false
 
@@ -29,9 +30,6 @@ func _process(_delta): #update
 func check_then_move(gridPos, cx, cy):
 	if (ded): return
 	var newGridPos = Grid.world_to_map(Vector2(cx, cy))
-	# print("newGridPos: ", newGridPos)
-	# print("old GridPos: ", gridPos)
-	# print("Tilemap value: ", Grid.get_cellv(newGridPos))
 	if Grid.get_cellv(newGridPos) != -1: # if tile isn't empty, commit move
 		if Grid.get_cellv(gridPos) == 0: # if tile is black square
 			touchedTiles.push_back(Vector3(gridPos.x, gridPos.y, 6)) # add tile that was touched to array
@@ -52,3 +50,5 @@ func check_then_move(gridPos, cx, cy):
 			ded = true
 			$Sprite.visible = not $Sprite.visible
 			print("you ded lol")
+		if (Grid.get_used_cells_by_id(0).size() < 2):
+			print("you did it woo")
