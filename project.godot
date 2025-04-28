@@ -16,8 +16,12 @@ config/icon="res://Sprites/icon.png"
 
 [display]
 
-window/size/width=1800
-window/size/height=500
+window/size/width=832
+window/size/height=192
+window/size/resizable=false
+window/size/borderless=true
+window/stretch/aspect="keep"
+window/stretch/shrink=0.5
 
 [input]
 
@@ -65,5 +69,5 @@ common/enable_pause_aware_picking=true
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-environment/default_clear_color=Color( 0, 0, 0, 1 )
+environment/default_clear_color=Color( 0.12549, 0.168627, 0.219608, 1 )
 environment/default_environment="res://default_env.tres"
